@@ -1,0 +1,14 @@
+version: '2.1'
+services:
+  cassandra:
+    image: cassandra:latest
+    build: ./cassandra
+    container_name: cassandra
+    command: "sh /cassandra-init.sh"
+    ports:
+      - "127.0.0.1:9042:9042"
+    healthcheck:
+      test: "/cassandra-health-check.sh"
+      interval: 60s
+      timeout: 10s
+      retries: 3
