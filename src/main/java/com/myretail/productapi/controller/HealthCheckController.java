@@ -67,11 +67,11 @@ public class HealthCheckController {
         try {
             //Using the provided end point as health check endpoint of given service
             ResponseEntity<ProductResponse> responseEntity = restTemplate.exchange(String.format(endpoint, 13860429), HttpMethod.GET, null, ProductResponse.class);
-            if (responseEntity.getStatusCode().is5xxServerError()) {
-                apiHealthCheckResponse.setStatus("Failure");
-                apiHealthCheckResponse.setDetails("Api Returned 500 response code");
-            } else {
+            if (responseEntity.getStatusCode().is2xxSuccessful()) {
                 apiHealthCheckResponse.setStatus("Success");
+            } else {
+                apiHealthCheckResponse.setStatus("Failure");
+                apiHealthCheckResponse.setDetails("Status Code: "+responseEntity.getStatusCode().toString());
             }
 
         } catch (Exception e) {

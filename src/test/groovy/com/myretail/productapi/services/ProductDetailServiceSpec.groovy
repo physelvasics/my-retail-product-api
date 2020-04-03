@@ -70,4 +70,48 @@ class ProductDetailServiceSpec extends Specification{
         result.name == null
     }
 
+    def "getProductDetail throws exception"(){
+
+        given:
+        ProductDetail productDetail = new ProductDetail(id: 1234, currentPrice: new Price(value: 10, currencyCode: "USD"))
+
+        when:
+        ProductDetail result = productDetailService.getProductDetail(1234)
+
+        then:
+        1 * productDetailsRepository.findById(1234) >> {throw new Exception ("some exception")}
+        0 * productClient.getProductById(1234) >> null
+        0 * _
+
+        thrown Exception
+    }
+
+    def "Update product price"(){
+        given:
+        ProductDetail productDetail = new ProductDetail(id: 1234, currentPrice: new Price(value: 10, currencyCode: "USD"))
+
+        when:
+        productDetailService.updateProductDetail(productDetail)
+
+        then:
+        1 * productDetailsRepository.save(productDetail)
+        0 * _
+    }
+
+    def "Update product exception thrown"(){
+        given:
+        ProductDetail productDetail = new ProductDetail(id: 1234, currentPrice: new Price(value: 10, currencyCode: "USD"))
+
+        when:
+        productDetailService.updateProductDetail(productDetail)
+
+        then:
+        1 * productDetailsRepository.save(productDetail) >> {throw new Exception ("some exception")}
+        0 * _
+
+        thrown Exception
+    }
+
+
+
 }
