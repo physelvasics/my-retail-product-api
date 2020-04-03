@@ -46,8 +46,8 @@ public class ProductDetailsServiceImpl implements ProductDetailsService {
     @Override
     public ProductDetailResponse getProductDetail(Integer id) {
 
-        ProductDetail productDetail = productDetailsRepository.findById(id).orElse(null);
         Product product = productRestClient.getProductById(id);
+        ProductDetail productDetail = productDetailsRepository.findById(id).orElse(null);
 
         return ProductDetailResponseFactory.produce(id, productDetail, product);
     }

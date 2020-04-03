@@ -79,8 +79,9 @@ class ProductDetailServiceSpec extends Specification{
         ProductDetail result = productDetailService.getProductDetail(1234)
 
         then:
+        1 * productClient.getProductById(1234) >> null
         1 * productDetailsRepository.findById(1234) >> {throw new Exception ("some exception")}
-        0 * productClient.getProductById(1234) >> null
+
         0 * _
 
         thrown Exception
