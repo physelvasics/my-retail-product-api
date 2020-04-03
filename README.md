@@ -48,7 +48,8 @@ mvn spring-boot:run
 
 ###Sample Requests
 >For more api documentation please refer swagger
->http://localhost:8080/swagger-ui.html/
+>http://localhost:8080/swagger-ui.html#/
+
 ####Product Price Update
 ```
 curl --location --request PUT 'http://localhost:8080/v1/products/13860420' \
@@ -62,6 +63,7 @@ curl --location --request PUT 'http://localhost:8080/v1/products/13860420' \
     }
 }'
 ```
+
 ####Get Product Details
 ```
 curl --location --request GET 'http://localhost:8080/v1/products/13860420' \
