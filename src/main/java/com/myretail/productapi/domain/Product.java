@@ -2,6 +2,8 @@ package com.myretail.productapi.domain;
 
 /**
  * This represents Product data from Product service.
+ *
+ * @author Selvaraj Karuppusamy
  */
 public class Product {
 

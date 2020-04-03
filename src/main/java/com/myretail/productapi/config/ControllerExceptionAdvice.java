@@ -11,6 +11,13 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.client.HttpServerErrorException;
 import org.springframework.web.method.annotation.MethodArgumentTypeMismatchException;
 
+/**
+ * This class will handle exceptions thrown in various part of the application. Full exception traces will
+ * be printed and custom error response will be sent.
+ *
+ * @author Selvaraj Karuppusamy
+ */
+
 @ControllerAdvice
 public class ControllerExceptionAdvice {
 

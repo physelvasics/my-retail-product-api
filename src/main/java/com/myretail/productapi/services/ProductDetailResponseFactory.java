@@ -6,12 +6,27 @@ import com.myretail.productapi.domain.ProductDetailResponse;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+/**
+ * This factory class is to produce ProductDetailResponse
+ *
+ * @author Selvaraj Karuppusamy
+ */
+
 public final class ProductDetailResponseFactory {
 
     private static Logger log = LoggerFactory.getLogger(ProductDetailResponseFactory.class);
 
-    public static ProductDetailResponse produce(Integer id, ProductDetail productDetail, Product product){
 
+    /**
+     * This static method will produce ProductDetailResponse.
+     * @param id
+     * @param productDetail
+     * @param product
+     * @return ProductDetailResponse
+     *
+     * @author Selvaraj Karuppusamy
+     */
+    public static ProductDetailResponse produce(Integer id, ProductDetail productDetail, Product product){
         ProductDetailResponse productDetailResponse = null;
 
         if(productDetail != null){

@@ -2,6 +2,11 @@ package com.myretail.productapi.domain;
 
 import java.util.Objects;
 
+/**
+ * This domain represents the final response of product detail.
+ *
+ * @author Selvaraj Karuppusamy
+ */
 public class ProductDetailResponse extends ProductDetail {
 
     private String name;

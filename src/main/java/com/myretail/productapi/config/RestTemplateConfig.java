@@ -9,6 +9,11 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.http.client.HttpComponentsClientHttpRequestFactory;
 import org.springframework.web.client.RestTemplate;
 
+/**
+ * This configuration class will produce resttemplate with configured connection and read timeout value.
+ *
+ * @author Selvaraj Karuppusamy
+ */
 @Configuration
 public class RestTemplateConfig {
 

@@ -30,6 +30,10 @@ public class ProductRestClient {
     @Value("${product.endpoint}")
     private String endpoint;
 
+    @Value("${redsky.host}")
+    private String host;
+
+
     /**
      * This method will retrieve product data from product service and doesn't throw any exception.
      *
@@ -43,7 +47,7 @@ public class ProductRestClient {
         headers.setAccept(Arrays.asList(MediaType.APPLICATION_JSON));
         HttpEntity<Product> entity = new HttpEntity<>(headers);
 
-        String url = String.format(endpoint, id);
+        String url = String.format(host + endpoint, id);
         Product product = null;
 
         try {

@@ -2,6 +2,8 @@ package com.myretail.productapi.domain;
 
 /**
  * This represents ProductDescription of an Item.
+ *
+ * @author Selvaraj Karuppusamy
  */
 public class ProductDescription {
 

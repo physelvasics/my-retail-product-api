@@ -7,7 +7,7 @@ import org.springframework.data.cassandra.config.AbstractCassandraConfiguration;
 import org.springframework.data.cassandra.config.CassandraClusterFactoryBean;
 
 /**
- * This configuration class produces CassandraClusterFactoryBean.
+ * This configuration class produces CassandraClusterFactoryBean. This will be used only for health check.
  *
  * @author Selvaraj Karuppusamy
  */

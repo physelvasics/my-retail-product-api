@@ -9,6 +9,11 @@ import org.springframework.data.cassandra.core.mapping.UserDefinedType;
 import java.io.Serializable;
 import java.util.Objects;
 
+/**
+ * This domain represents price detail of the product.
+ *
+ * @author Selvaraj Karuppusamy
+ */
 @UserDefinedType("current_price")
 public class Price  {
 
