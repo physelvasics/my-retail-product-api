@@ -10,7 +10,7 @@ import springfox.documentation.swagger2.annotations.EnableSwagger2;
 @SpringBootApplication
 @PropertySources({
         @PropertySource(value = "classpath:${environment:local}.properties", ignoreResourceNotFound = true),
-        @PropertySource("classpath:default.properties")
+        @PropertySource("classpath:application.properties")
 })
 public class Application {
 
