@@ -11,19 +11,21 @@ import org.springframework.http.ResponseEntity
 import org.springframework.web.client.RestTemplate
 import spock.lang.Specification
 
-class HealthCheckControllerSpec extends Specification{
+class HealthCheckControllerSpec extends Specification {
 
     private CassandraClusterFactoryBean cassandraClusterFactoryBean = Mock(CassandraClusterFactoryBean)
     private RestTemplate restTemplate = Mock(RestTemplate)
-    private String endpoint="sample url"
+    private String endpoint = "sample/url"
+    private String host = "test.host"
 
     private HealthCheckController healthCheckController = new HealthCheckController(
             cluster: cassandraClusterFactoryBean,
             restTemplate: restTemplate,
-            endpoint: endpoint
+            endpoint: endpoint,
+            host: host
     )
 
-    def "Successful health check"(){
+    def "Successful health check"() {
 
         given:
         Session session = Mock(Session)
@@ -37,7 +39,7 @@ class HealthCheckControllerSpec extends Specification{
         1 * cassandraClusterFactoryBean.getObject().connect() >> session
         1 * session.close()
 
-        1 * restTemplate.exchange(String.format(endpoint, 13860429), HttpMethod.GET, null, ProductResponse.class) >> productResponseResponseEntity
+        1 * restTemplate.exchange(String.format(host+endpoint, 13860429), HttpMethod.GET, null, ProductResponse.class) >> productResponseResponseEntity
         1 * productResponseResponseEntity.statusCode >> HttpStatus.OK
         0 * _
 
@@ -49,7 +51,7 @@ class HealthCheckControllerSpec extends Specification{
         responses.get(1).status == "Success"
     }
 
-    def "Rest client failed"(){
+    def "Rest client failed"() {
 
         given:
         Session session = Mock(Session)
@@ -63,7 +65,7 @@ class HealthCheckControllerSpec extends Specification{
         1 * cassandraClusterFactoryBean.getObject().connect() >> session
         1 * session.close()
 
-        1 * restTemplate.exchange(String.format(endpoint, 13860429), HttpMethod.GET, null, ProductResponse.class) >> productResponseResponseEntity
+        1 * restTemplate.exchange(String.format(host+endpoint, 13860429), HttpMethod.GET, null, ProductResponse.class) >> productResponseResponseEntity
         2 * productResponseResponseEntity.statusCode >> HttpStatus.NOT_FOUND
         0 * _
 
@@ -75,7 +77,7 @@ class HealthCheckControllerSpec extends Specification{
         responses.get(1).status == "Failure"
     }
 
-    def "Exception in rest client"(){
+    def "Exception in rest client"() {
 
         given:
         Session session = Mock(Session)
@@ -88,7 +90,7 @@ class HealthCheckControllerSpec extends Specification{
         1 * cassandraClusterFactoryBean.getObject().connect() >> session
         1 * session.close()
 
-        1 * restTemplate.exchange(String.format(endpoint, 13860429), HttpMethod.GET, null, ProductResponse.class) >> {throw new Exception ("some exception")}
+        1 * restTemplate.exchange(String.format(host+endpoint, 13860429), HttpMethod.GET, null, ProductResponse.class) >> { throw new Exception("some exception") }
         0 * _
 
         responses.size() == 2
@@ -100,7 +102,7 @@ class HealthCheckControllerSpec extends Specification{
     }
 
 
-    def "Cassandra connection failure"(){
+    def "Cassandra connection failure"() {
 
         given:
         ResponseEntity<ProductResponse> productResponseResponseEntity = Mock(ResponseEntity)
@@ -110,9 +112,9 @@ class HealthCheckControllerSpec extends Specification{
 
         then:
         2 * cassandraClusterFactoryBean.getObject() >> Mock(Cluster)
-        1 * cassandraClusterFactoryBean.getObject().connect() >> {throw new Exception ("some exception")}
+        1 * cassandraClusterFactoryBean.getObject().connect() >> { throw new Exception("some exception") }
 
-        1 * restTemplate.exchange(String.format(endpoint, 13860429), HttpMethod.GET, null, ProductResponse.class) >> productResponseResponseEntity
+        1 * restTemplate.exchange(String.format(host+endpoint, 13860429), HttpMethod.GET, null, ProductResponse.class) >> productResponseResponseEntity
         1 * productResponseResponseEntity.statusCode >> HttpStatus.OK
         0 * _
 

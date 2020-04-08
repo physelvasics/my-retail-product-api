@@ -36,6 +36,9 @@ public class HealthCheckController {
     @Value("${product.endpoint}")
     private String endpoint;
 
+    @Value("${redsky.host}")
+    private String host;
+
     /**
      * This method will run health check on cassandra and product service.
      *
@@ -66,7 +69,7 @@ public class HealthCheckController {
 
         try {
             //Using the provided end point as health check endpoint of given service
-            ResponseEntity<ProductResponse> responseEntity = restTemplate.exchange(String.format(endpoint, 13860429), HttpMethod.GET, null, ProductResponse.class);
+            ResponseEntity<ProductResponse> responseEntity = restTemplate.exchange(String.format(host+endpoint, 13860429), HttpMethod.GET, null, ProductResponse.class);
             if (responseEntity.getStatusCode().is2xxSuccessful()) {
                 apiHealthCheckResponse.setStatus("Success");
             } else {
