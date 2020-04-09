@@ -27,15 +27,28 @@ public class ProductDetailsServiceImpl implements ProductDetailsService {
     @Autowired
     private ProductRestClient productRestClient;
 
+    @Override
+    public Integer insertProductDetail(ProductDetail productDetail) {
+        productDetailsRepository.save(productDetail);
+        log.info("Inserted product detail, id={}", productDetail.getId());
+        return productDetail.getId();
+    }
+
     /**
      * This method will update product detail object to database
      * @param productDetail
      *
      */
     @Override
-    public void updateProductDetail(ProductDetail productDetail) {
+    public ProductDetail updateProductDetail(Integer id, ProductDetail productDetail) {
+
+        if(productDetailsRepository.findById(id).orElse(null) == null){
+            return null;
+        }
+        productDetail.setId(id);
         productDetailsRepository.save(productDetail);
-        log.info("Updated product detail, id={}", productDetail.getId());
+        log.info("Updated product detail, id={}", id);
+        return productDetail;
     }
 
     /**

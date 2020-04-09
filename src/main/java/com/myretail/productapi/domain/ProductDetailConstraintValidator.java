@@ -26,7 +26,6 @@ public class ProductDetailConstraintValidator implements ConstraintValidator<Pro
     public boolean isValid(ProductDetail productDetail, ConstraintValidatorContext constraintValidatorContext) {
 
         return productDetail != null &&
-                productDetail.getId() != null &&
                 productDetail.getCurrentPrice() != null &&
                 !StringUtils.isEmpty(productDetail.getCurrentPrice().getCurrencyCode()) &&
                 productDetail.getCurrentPrice().getValue() != null;

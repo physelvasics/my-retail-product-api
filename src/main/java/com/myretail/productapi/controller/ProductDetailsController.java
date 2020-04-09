@@ -47,30 +47,31 @@ public class ProductDetailsController {
         return productDetailResponse;
     }
 
-    /**
-     * This PUT endpoint will receive and update the product detail for given id.
-     *
-     * <b>Note: </b>The response may have one of following.
-     * <p>
-     *    <ul>
-     *      <li>'success' message with status code 200 in case of successful update.</li>
-     *      <li>'failure' message with status code of 500 in case of any exception.</li>
-     *      <li>400 in case of invalid input.</li>
-     *    </ul>
-     * </p>
-     *
-     * @param id            is a product id for which the product details has to be updated.
-     * @param productDetail which has to be updated.
-     * @param response      is used to send the http status based on request processing status.
-     * @return String status.
-     */
+
+    @PostMapping(path = "/products", consumes = "application/json")
+    Integer postProductDetails(
+                             @Valid @RequestBody ProductDetail productDetail,
+                             HttpServletResponse response) {
+        log.info("Incoming post request, id={}", productDetail.getId());
+
+        productDetailsService.insertProductDetail(productDetail);
+        response.setStatus(HttpServletResponse.SC_CREATED);
+        return productDetail.getId();
+    }
+
+
     @PutMapping(path = "/products/{id}", consumes = "application/json")
-    String putProductDetails(@PathVariable Integer id,
+    ProductDetail putProductDetails(@PathVariable Integer id,
                              @Valid @RequestBody ProductDetail productDetail,
                              HttpServletResponse response) {
         log.info("Incoming put request, id={}", id);
 
-        productDetailsService.updateProductDetail(productDetail);
-        return "success";
+        ProductDetail responseEntity = productDetailsService.updateProductDetail(id, productDetail);
+        if(responseEntity!=null){
+            response.setStatus(HttpServletResponse.SC_CREATED);
+        }else {
+            response.setStatus(HttpServletResponse.SC_NO_CONTENT);
+        }
+        return responseEntity;
     }
 }

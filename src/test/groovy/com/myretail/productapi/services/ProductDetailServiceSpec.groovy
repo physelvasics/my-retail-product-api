@@ -89,9 +89,10 @@ class ProductDetailServiceSpec extends Specification {
         ProductDetail productDetail = new ProductDetail(id: 1234, currentPrice: new Price(value: 10, currencyCode: "USD"))
 
         when:
-        productDetailService.updateProductDetail(productDetail)
+        productDetailService.updateProductDetail(1234, productDetail)
 
         then:
+        1 * productDetailsRepository.findById(1234) >> new Optional<ProductDetail>(productDetail)
         1 * productDetailsRepository.save(productDetail)
         0 * _
     }
@@ -101,9 +102,10 @@ class ProductDetailServiceSpec extends Specification {
         ProductDetail productDetail = new ProductDetail(id: 1234, currentPrice: new Price(value: 10, currencyCode: "USD"))
 
         when:
-        productDetailService.updateProductDetail(productDetail)
+        productDetailService.updateProductDetail(1234, productDetail)
 
         then:
+        1 * productDetailsRepository.findById(1234) >> new Optional<ProductDetail>(productDetail)
         1 * productDetailsRepository.save(productDetail) >> { throw new Exception("some exception") }
         0 * _
 

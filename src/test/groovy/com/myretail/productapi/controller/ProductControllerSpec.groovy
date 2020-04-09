@@ -46,25 +46,40 @@ class ProductControllerSpec extends Specification{
         ProductDetail productDetail = new ProductDetail(id: 1234, currentPrice: new Price(value: 12.5, currencyCode: "USD"))
 
         when:
-        String actual = productDetailsController.putProductDetails(1234,productDetail, httpServletResponse)
+        ProductDetail actual = productDetailsController.putProductDetails(1234,productDetail, httpServletResponse)
 
         then:
-        1 * productDetailsService.updateProductDetail(productDetail)
+        1 * productDetailsService.updateProductDetail(1234, productDetail) >> productDetail
+        1 * httpServletResponse.setStatus(201)
         0 * _
-        "success" == actual
+        productDetail == actual
     }
 
-    def "Invalid put request"(){
+    def "Valid put request no content"(){
         given:
-        ProductDetail productDetail = new ProductDetail(id: 1234, currentPrice: new Price(value: 12.5))
+        ProductDetail productDetail = new ProductDetail(id: 1234, currentPrice: new Price(value: 12.5, currencyCode: "USD"))
 
         when:
-        String actual = productDetailsController.putProductDetails(1234,productDetail, httpServletResponse)
+        ProductDetail actual = productDetailsController.putProductDetails(1234,productDetail, httpServletResponse)
 
         then:
-        1 * productDetailsService.updateProductDetail(productDetail)
+        1 * productDetailsService.updateProductDetail(1234, productDetail) >> null
+        1 * httpServletResponse.setStatus(204)
         0 * _
-        "success" == actual
+        null == actual
     }
 
+    def "Valid post request"(){
+        given:
+        ProductDetail productDetail = new ProductDetail(id: 1234, currentPrice: new Price(value: 12.5, currencyCode: "USD"))
+
+        when:
+        Integer actual = productDetailsController.postProductDetails(productDetail, httpServletResponse)
+
+        then:
+        1 * productDetailsService.insertProductDetail(productDetail) >> 1234
+        1 * httpServletResponse.setStatus(201)
+        0 * _
+        1234 == actual
+    }
 }
